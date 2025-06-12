@@ -80,16 +80,16 @@ podman push mqtt2serial
 ### Deploy
 
 ```
-CLOCK_NAME=clock1
-CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+export CLOCK_NAME=clock1
+export CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 
 envsubst < deployment.yaml | kubectl apply -f -
 ```
 ### Remove
 
 ```
-CLOCK_NAME=clock1
-CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+export CLOCK_NAME=clock1
+export CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 
 envsubst < deployment.yaml | kubectl delete -f -
 ```
