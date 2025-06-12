@@ -53,7 +53,7 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-mosquitto
+  name: mosquitto
   namespace: isc25
 spec:
   selector:
