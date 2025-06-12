@@ -2,32 +2,6 @@
 
 This Python app bridges MQTT messages and serial commands for the Ulanzi TC001 LED matrix display.
 
-## TLDR; tutorial
-
-### Build
-
-```
-podman build -t isc-tutorial.hlrs.de/mqtt2serial:latest .
-podman push mqtt2serial
-```
-
-### Deploy
-
-```
-CLOCK_NAME=clock1
-CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
-
-envsubst < deployment.yaml | kubectl apply -f -
-```
-### Remove
-
-```
-CLOCK_NAME=clock1
-CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
-
-envsubst < deployment.yaml | kubectl delete -f -
-```
-
 ## Features
 
 - Sends display commands over serial to the device (scrolling text, images, colors).
@@ -93,6 +67,33 @@ docker build -t mqtt2serial .
 docker run --rm --device=/dev/ttyUSB0 mqtt2serial \
   /dev/ttyUSB0 clock --mqtt_host 192.168.1.10 --mqtt_port 1881
 ```
+
+## Deploy on edge (for the tutorial)
+
+### Build
+
+```
+podman build -t isc-tutorial.hlrs.de/mqtt2serial:latest .
+podman push mqtt2serial
+```
+
+### Deploy
+
+```
+CLOCK_NAME=clock1
+CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+
+envsubst < deployment.yaml | kubectl apply -f -
+```
+### Remove
+
+```
+CLOCK_NAME=clock1
+CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+
+envsubst < deployment.yaml | kubectl delete -f -
+```
+
 
 ## License
 
