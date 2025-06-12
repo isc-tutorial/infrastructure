@@ -15,7 +15,7 @@ spec:
         app: clock1-app
     spec:
       nodeSelector:
-        display-name: clock1
+        display-name: "$CLOCK_NAME"
       imagePullSecrets:
       - name: tutorial-registry-secret
       containers:
@@ -28,9 +28,9 @@ spec:
           mountPath: /dev/ttyUSB0
         args:
           - /dev/ttyUSB0
-          - clock
+          - "$CLOCK_NAME"
           - --mqtt_host
-          - mosquitto.isc25
+          - "$CLOCK_EDGE_MQTT"
           - --mqtt_port
           - "1883"
       volumes:
