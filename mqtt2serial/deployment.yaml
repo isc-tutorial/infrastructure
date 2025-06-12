@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: isc25
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clock1-app
+  namespace: whispertest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clock1-app
+  template:
+    metadata:
+      labels:
+        app: clock1-app
+    spec:
+      nodeSelector:
+        display-name: clock1
+      imagePullSecrets:
+      - name: tutorial-registry-secret
+      containers:
+      - name: serial-app
+        image: "registry.hydra1.hlrs.de/display:1"
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: serial-device
+          mountPath: /dev/ttyUSB0
+        args:
+          - /dev/ttyUSB0
+          - clock
+          - --mqtt_host
+          - mosquitto.isc25
+          - --mqtt_port
+          - "1883"
+      volumes:
+      - name: serial-device
+        hostPath:
+          path: /dev/ttyUSB0
+          type: CharDevice
