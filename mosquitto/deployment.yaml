@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: isc25
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto
+  namespace: isc25
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mosquitto
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/agent
+                    operator: DoesNotExist
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:2
+          ports:
+            - containerPort: 1883
+            - containerPort: 9001
+          volumeMounts:
+            - name: mosquitto-config
+              mountPath: /mosquitto/config
+      volumes:
+        - name: mosquitto-config
+          configMap:
+            name: mosquitto-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+  namespace: isc25
+data:
+  mosquitto.conf: |
+    listener 1883
+    allow_anonymous true
+    persistence false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-mosquitto
+  namespace: isc25
+spec:
+  selector:
+    app: mosquitto
+  ports:
+    - port: 1883
+      targetPort: 1883
+      name: mqtt
+  type: ClusterIP
