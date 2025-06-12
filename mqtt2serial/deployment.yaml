@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: clock1-app
-  namespace: whispertest
+  namespace: isc25
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,7 @@ spec:
       - name: tutorial-registry-secret
       containers:
       - name: serial-app
-        image: "registry.hydra1.hlrs.de/display:1"
+        image: "isc-tutorial.hlrs.de/display:1"
         securityContext:
           privileged: true
         volumeMounts:
