@@ -81,6 +81,7 @@ podman push mqtt2serial
 
 ```
 export CLOCK_NAME=clock1
+# export CLOCK_EDGE_MQTT='mosquitto.isc25'
 export CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 
 envsubst < deployment.yaml | kubectl apply -f -
@@ -89,6 +90,7 @@ envsubst < deployment.yaml | kubectl apply -f -
 
 ```
 export CLOCK_NAME=clock1
+# export CLOCK_EDGE_MQTT='mosquitto.isc25'
 export CLOCK_EDGE_MQTT=$(kubectl get nodes -l display-name=$CLOCK_NAME -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 
 envsubst < deployment.yaml | kubectl delete -f -
