@@ -73,7 +73,7 @@ docker run --rm --device=/dev/ttyUSB0 mqtt2serial \
 ### Build
 
 ```
-podman build -t isc-tutorial.hlrs.de/mqtt2serial:latest .
+podman build -t isc-tutorial.hlrs.de/mqtt2serial:1 .
 podman push mqtt2serial
 ```
 
