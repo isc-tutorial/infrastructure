@@ -2,17 +2,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clock1-app
+  name: ${CLOCK_NAME}-app
   namespace: isc25
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: clock1-app
+      app: ${CLOCK_NAME}-app
   template:
     metadata:
       labels:
-        app: clock1-app
+        app: ${CLOCK_NAME}-app
     spec:
       nodeSelector:
         display-name: "$CLOCK_NAME"
